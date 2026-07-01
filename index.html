@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ホテルインバウンド戦略マニュアル 2026</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brown-900: #2E1B0E;
+      --brown-800: #4A2E1A;
+      --brown-700: #5D4037;
+      --brown-600: #7B5B4A;
+      --brown-500: #A0522D;
+      --brown-400: #C68642;
+      --brown-300: #D2B48C;
+      --brown-200: #E8DDD0;
+      --brown-100: #F5EDE0;
+      --brown-50: #FCF8F2;
+      --blue-900: #0F1F3D;
+      --blue-800: #1A2A4A;
+      --blue-700: #1A365D;
+      --blue-500: #2B6CB0;
+      --blue-300: #7FB8E0;
+      --blue-100: #EBF4FF;
+      --green-900: #1A3A1A;
+      --green-700: #2E7D32;
+      --green-500: #43A047;
+      --green-300: #81C784;
+      --green-100: #E8F5E9;
+      --gold: #D2B48C;
+      --gold-bright: #E6B83D;
+      --cream: #FCF8F2;
+      --text: #3E2723;
+      --text-light: #7B5B4A;
+      --white: #FFFFFF;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.9;
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4, h5 { font-family: 'Noto Sans JP', sans-serif; font-weight: 700; line-height: 1.3; }
+    .display { font-family: 'Playfair Display', serif; font-weight: 700; }
+
+    /* ===== Scroll-triggered animation ===== */
+    .fade-up { opacity: 1; transform: translateY(0); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in { opacity: 1; transition: opacity 0.8s ease; }
+
+    /* ===== Progress bar ===== */
+    .progress-bar {
+      position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 9999;
+      background: var(--brown-200);
+    }
+    .progress-bar .fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--brown-500), var(--blue-700), var(--green-700));
+      transition: width 0.3s ease;
+    }
+
+    /* ===== Navigation ===== */
+    .nav-bar {
+      position: fixed; top: 3px; left: 0; right: 0; z-index: 1000;
+      background: rgba(46,27,14,0.95); backdrop-filter: blur(12px);
+      padding: 0 24px; display: flex; align-items: center; gap: 2px;
+      overflow-x: auto; white-space: nowrap; border-bottom: 1px solid rgba(210,180,140,0.15);
+      height: 50px;
+    }
+    .nav-bar a {
+      display: inline-block; padding: 14px 16px;
+      color: var(--gold); font-size: 0.72em; font-weight: 500;
+      transition: all 0.2s; border-bottom: 3px solid transparent; letter-spacing: 0.03em;
+    }
+    .nav-bar a:hover, .nav-bar a.active { color: #FFF; border-bottom-color: var(--gold-bright); background: rgba(255,255,255,0.04); }
+    .nav-bar .logo { font-family: 'Playfair Display', serif; color: #fff; font-size: 0.9em; font-weight: 700; margin-right: 16px; letter-spacing: 0.05em; }
+
+    /* ===== Hero ===== */
+    .hero {
+      margin-top: 53px; position: relative; overflow: hidden;
+      background: linear-gradient(160deg, var(--blue-900) 0%, var(--green-900) 40%, var(--brown-800) 100%);
+      padding: 80px 24px 70px; text-align: center;
+    }
+    .hero::before {
+      content: '🌍'; position: absolute; font-size: 22em; opacity: 0.05;
+      top: -60px; right: -60px; transform: rotate(12deg);
+    }
+    .hero::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px);
+    }
+    .hero * { position: relative; z-index: 1; }
+    .hero h1 { font-size: 2.8em; font-weight: 900; color: #fff; letter-spacing: 0.04em; }
+    .hero h1 .accent { color: var(--gold-bright); font-family: 'Playfair Display', serif; }
+    .hero .sub { font-size: 1.2em; color: var(--brown-300); margin-top: 10px; font-weight: 300; letter-spacing: 0.06em; }
+    .hero .badge-row { margin-top: 24px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .hero .badge-row span {
+      background: rgba(255,255,255,0.08); padding: 6px 18px; border-radius: 20px;
+      font-size: 0.72em; border: 1px solid rgba(255,255,255,0.12); color: var(--brown-200);
+    }
+
+    /* ===== Container ===== */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+
+    /* ===== Section ===== */
+    section { padding: 60px 0; position: relative; }
+    section:nth-child(even) { background: var(--brown-100); }
+    .section-header { margin-bottom: 40px; }
+    .section-number {
+      font-family: 'Playfair Display', serif; font-size: 3em; font-weight: 700;
+      line-height: 1; margin-bottom: 4px; opacity: 0.3;
+    }
+    .section-title {
+      font-size: 1.8em; font-weight: 900; display: flex; align-items: center; gap: 12px;
+    }
+    .section-desc { font-size: 0.85em; color: var(--text-light); margin-top: 6px; max-width: 700px; }
+
+    /* Section color themes */
+    .sec-psy .section-number { color: var(--brown-500); }
+    .sec-psy .section-title { color: var(--brown-700); }
+    .sec-inbound .section-number { color: var(--blue-700); }
+    .sec-inbound .section-title { color: var(--blue-800); }
+    .sec-esg .section-number { color: var(--green-700); }
+    .sec-esg .section-title { color: var(--green-900); }
+    .sec-halal .section-number { color: var(--brown-500); }
+    .sec-halal .section-title { color: var(--brown-700); }
+
+    /* ===== Cards ===== */
+    .card {
+      background: var(--white); border-radius: 16px; padding: 28px;
+      box-shadow: 0 4px 20px rgba(46,27,14,0.06);
+      border: 1px solid var(--brown-200);
+    }
+    .card-header {
+      font-size: 1.05em; font-weight: 700; margin-bottom: 14px;
+      padding-bottom: 10px; border-bottom: 2px solid var(--brown-200);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card-body { font-size: 0.85em; color: var(--text); }
+
+    /* ===== Grid ===== */
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+    .g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+    .full-w { grid-column: 1 / -1; }
+
+    /* ===== Tables ===== */
+    table { width: 100%; border-collapse: collapse; font-size: 0.82em; }
+    th { background: var(--brown-700); color: #fff; padding: 11px 16px; text-align: center; font-weight: 500; letter-spacing: 0.03em; }
+    td { padding: 10px 16px; border-bottom: 1px solid var(--brown-200); text-align: center; }
+    tr:nth-child(even) td { background: var(--brown-50); }
+
+    /* ===== KPI ===== */
+    .kpi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-bottom: 32px; }
+    .kpi-card {
+      background: var(--white); border-radius: 14px; padding: 22px 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05); border: 1px solid var(--brown-200);
+      transition: transform 0.2s;
+    }
+    .kpi-card:hover { transform: translateY(-2px); }
+    .kpi-card .num {
+      font-family: 'Playfair Display', serif; font-size: 2.4em; font-weight: 700;
+      background: linear-gradient(135deg, var(--brown-500), var(--blue-700));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+    }
+    .kpi-card .label { font-size: 0.72em; color: var(--text-light); margin-top: 4px; }
+
+    /* ===== Tags ===== */
+    .tag {
+      display: inline-block; padding: 3px 12px; border-radius: 20px;
+      font-size: 0.65em; font-weight: 500; margin: 2px;
+    }
+    .tag-t { background: var(--brown-500); color: #fff; }
+    .tag-b { background: var(--blue-700); color: #fff; }
+    .tag-g { background: var(--green-700); color: #fff; }
+    .tag-gold { background: var(--gold); color: var(--text); }
+
+    /* ===== Comparison ===== */
+    .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .cmp-card { border-radius: 16px; padding: 28px; text-align: center; }
+    .cmp-card.l { background: linear-gradient(135deg, #F5EDE0, #E8DDD0); border: 2px solid var(--brown-400); }
+    .cmp-card.r { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border: 2px solid var(--green-300); }
+    .cmp-card .icon { font-size: 2.8em; margin-bottom: 8px; }
+    .cmp-card h4 { font-size: 1.1em; }
+    .cmp-card .desc { font-size: 0.82em; margin-top: 6px; }
+    .cmp-card .sub { font-size: 0.7em; color: var(--text-light); margin-top: 8px; }
+
+    /* ===== Chart ===== */
+    .chart-box { position: relative; height: 270px; }
+    .chart-box canvas { height: 270px !important; max-height: 270px; width: 100% !important; }
+
+    /* ===== Psychology specifics ===== */
+    .motif-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
+    .motif-card { text-align: center; padding: 20px 12px; background: var(--white); border-radius: 14px; border: 1px solid var(--brown-200); }
+    .motif-card .icon { font-size: 2.2em; margin-bottom: 8px; }
+
+    .need-flex { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+    .need-card { flex: 1; min-width: 160px; text-align: center; padding: 22px 16px; border-radius: 14px; }
+    .need-card .circle {
+      width: 72px; height: 72px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 10px; font-size: 1.6em; color: #fff;
+    }
+    .nc-blue .circle { background: var(--blue-700); }
+    .nc-green .circle { background: var(--green-700); }
+    .nc-brown .circle { background: var(--brown-500); }
+
+    .pyramid { display: flex; flex-direction: column; align-items: center; width: 100%; }
+    .py-level { width: 100%; padding: 14px; margin: 2px 0; text-align: center; font-weight: 700; color: #fff; border-radius: 6px; }
+    .py-level.small { padding: 10px; font-size: 0.8em; }
+
+    .hl-box {
+      background: linear-gradient(135deg, var(--brown-800), var(--brown-600));
+      color: #fff; border-radius: 16px; padding: 30px; text-align: center;
+    }
+    .hl-box p { color: #fff; }
+    .hl-box .hl-gold { color: var(--gold-bright); }
+
+    /* ===== Feature ===== */
+    .feature-list { font-size: 0.85em; }
+    .feature-list li { margin-bottom: 10px; }
+    .feature-list li strong { color: var(--brown-700); }
+
+    /* ===== Inbound specifics ===== */
+    .phase-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .phase-card { padding: 20px; border-radius: 12px; font-size: 0.82em; }
+    .phase-card h4 { font-size: 1em; margin-bottom: 8px; }
+    .phase-card ul { padding-left: 18px; }
+    .phase-card ul li { margin-bottom: 4px; }
+
+    /* ===== Divider ===== */
+    .sec-divider {
+      border: none; height: 2px; margin: 16px 0 0;
+      background: linear-gradient(90deg, var(--brown-300), var(--blue-300), var(--brown-300));
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      background: var(--brown-900); color: var(--brown-300); text-align: center;
+      padding: 28px 20px; font-size: 0.68em; line-height: 1.8;
+    }
+
+    /* ===== Accordion (for extra details) ===== */
+    .accordion { border: 1px solid var(--brown-200); border-radius: 12px; overflow: hidden; }
+    .accordion-item { border-bottom: 1px solid var(--brown-200); }
+    .accordion-item:last-child { border-bottom: none; }
+    .accordion-trigger {
+      width: 100%; padding: 16px 20px; background: var(--white); border: none;
+      text-align: left; cursor: pointer; font-size: 0.85em; font-weight: 600;
+      color: var(--brown-700); display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.2s;
+    }
+    .accordion-trigger:hover { background: var(--brown-50); }
+    .accordion-trigger .arrow { transition: transform 0.3s; font-size: 0.8em; }
+    .accordion-trigger.open .arrow { transform: rotate(180deg); }
+    .accordion-panel { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: var(--brown-50); }
+    .accordion-panel .inner { padding: 16px 20px; font-size: 0.82em; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 900px) {
+      .g2, .g3, .g4 { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: 1fr; }
+      .cmp-grid { grid-template-columns: 1fr; }
+      .motif-grid { grid-template-columns: 1fr 1fr; }
+      .phase-row { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.8em; }
+      section { padding: 40px 0; }
+      .nav-bar .logo { display: none; }
+      .container { padding: 0 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+<nav class="nav-bar">
+  <span class="logo">✦ Manual</span>
+  <a href="#hero">TOP</a>
+  <a href="#psychology">心理学</a>
+  <a href="#inbound">インバウンド</a>
+  <a href="#esg">ESG</a>
+  <a href="#halal">ハラル</a>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero" class="hero">
+  <h1>インバウンド戦略 <span class="accent">Manual</span> 2026</h1>
+  <p class="sub">心理学 × マクロデータ × ESG × ハラル</p>
+  <div class="badge-row">
+    <span>🧠 旅行心理学</span>
+    <span>📊 20年の変遷</span>
+    <span>🌿 ESG経営</span>
+    <span>☪️ ハラル市場</span>
+  </div>
+</section>
+
+<!-- ================================================================== -->
+<!-- SECTION 1: PSYCHOLOGY -->
+<!-- ================================================================== -->
+<section id="psychology" class="sec-psy">
+<div class="container">
+<div class="section-header fade-up">
+  <div class="section-number">01</div>
+  <div class="section-title">🧠 心理学的に人が旅行に行く理由</div>
+  <div class="section-desc">ポジティブ心理学と欲求理論から読み解く観光価値。人はなぜ旅に出るのか、その心理的メカニズムを7つの理論で解説する。</div>
+</div>
+
+<!-- KPI -->
+<div class="kpi-grid fade-up">
+  <div class="kpi-card"><div class="num">91%</div><div class="label">旅行が精神的健康に「非常に良い影響」を与えるとの回答</div></div>
+  <div class="kpi-card"><div class="num">5</div><div class="label">PERMA幸福因子の全要素を同時充足できる数少ない活動</div></div>
+  <div class="kpi-card"><div class="num">3</div><div class="label">SDTの基本的心理ニーズ（自律性・有能感・関係性）</div></div>
+</div>
+
+<!-- 1-1 Paradigm Shift -->
+<div class="g2 fade-up">
+  <div class="card full-w">
+    <div class="card-header">1.1 旅の価値のパラダイムシフト — ヘドニアからユーダイモニアへ</div>
+    <div class="card-body">
+      <p style="margin-bottom:14px;">観光心理学の分野では、旅行の価値が「快楽的満足（ヘドニア）」から「持続的幸福・意味追求（ユーダイモニア）」へと大きくシフトしている。これは単なるトレンドではなく、ポジティブ心理学の確立とともに学術的にも裏付けられた構造的変化である。</p>
+      <div class="g2" style="gap:16px;">
+        <div style="padding:16px; background:var(--brown-100); border-radius:10px;">
+          <h4 style="color:var(--brown-600); margin-bottom:6px;">😎 従来型：ヘドニア的快楽</h4>
+          <ul style="font-size:0.88em; padding-left:18px;">
+            <li>ストレスからの逃避・リラックス</li>
+            <li>一時的な快楽・娯楽消費</li>
+            <li>「〜から解放される」受動的体験</li>
+            <li>マスツーリズム・名所巡り</li>
+            <li>SNS映え・承認欲求の充足</li>
+          </ul>
+        </div>
+        <div style="padding:16px; background:var(--blue-100); border-radius:10px;">
+          <h4 style="color:var(--blue-700); margin-bottom:6px;">🌟 現代型：ユーダイモニア的成長</h4>
+          <ul style="font-size:0.88em; padding-left:18px;">
+            <li>自己成長・意味発見・価値観の更新</li>
+            <li>持続的なウェルビーイングの向上</li>
+            <li>「〜へ向かう」能動的体験参加</li>
+            <li>滞在型・体験型・ウェルネス志向</li>
+            <li>人生の転機・アイデンティティ再確認</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 1-2 SDT -->
+<div class="g2 fade-up">
+  <div class="card full-w">
+    <div class="card-header">1.2 自己決定理論（SDT）— 3つの基本的心理ニーズ</div>
+    <div class="card-body">
+      <p style="margin-bottom:14px;">Ryan &amp; Deci（2000）が提唱した自己決定理論（Self-Determination Theory）は、人間の心理的成長と統合に不可欠な3つの基本的ニーズを定義する。旅行はこの3ニーズを同時に充足できる稀有な体験である。</p>
+      <div class="need-flex">
+        <div class="need-card nc-blue" style="background:var(--blue-100);">
+          <div class="circle">🤝</div>
+          <h4 style="color:var(--blue-700);">関係性</h4>
+          <p style="font-size:0.78em; text-align:left; margin-top:6px;">
+            <strong>理論：</strong>他者とのつながり・所属感の欲求<br>
+            <strong>旅行例：</strong>家族旅行での団欒・現地コミュニティとの交流・グループツアーでの新しい友人・ホームステイ体験
+          </p>
+        </div>
+        <div class="need-card nc-green" style="background:var(--green-100);">
+          <div class="circle">🎯</div>
+          <h4 style="color:var(--green-700);">有能感</h4>
+          <p style="font-size:0.78em; text-align:left; margin-top:6px;">
+            <strong>理論：</strong>効果的に行動できる感覚・成長実感<br>
+            <strong>旅行例：</strong>語学チャレンジ・料理教室・サーフィン達成・トレッキング完走・新しい交通手段の習得
+          </p>
+        </div>
+        <div class="need-card nc-brown" style="background:var(--brown-100);">
+          <div class="circle">🗺️</div>
+          <h4 style="color:var(--brown-600);">自律性</h4>
+          <p style="font-size:0.78em; text-align:left; margin-top:6px;">
+            <strong>理論：</strong>自己決定・主体的選択の欲求<br>
+            <strong>旅行例：</strong>自由な旅程設計・その日の気分で行動を決める・一人旅での自己決定権の回復
+          </p>
+        </div>
+      </div>
+      <p style="margin-top:14px; font-size:0.8em; color:var(--text-light); text-align:center;">
+        <span class="tag tag-t">KEY INSIGHT</span> 3ニーズの同時充足が旅行後の持続的なウェルビーイング向上をもたらす
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- 1-3 Maslow -->
+<div class="g2 fade-up">
+  <div class="card">
+    <div class="card-header">1.3 マズローの欲求階層説</div>
+    <div class="card-body">
+      <p style="margin-bottom:12px; font-size:0.9em;">旅行はピラミッドの全階層に同時に作用する。特に「自己実現」は旅行の核心である。</p>
+      <div class="pyramid">
+        <div class="py-level" style="width:40%; background:var(--brown-500); padding:16px;">
+          🏆 自己実現欲求<br><span style="font-size:0.65em;font-weight:400;">可能性の開花・人生の意味探求</span>
+        </div>
+        <div class="py-level" style="width:55%; background:var(--brown-600); padding:12px;">
+          👑 承認欲求<br><span style="font-size:0.65em;font-weight:400;">達成の共有・SNS発信</span>
+        </div>
+        <div class="py-level" style="width:70%; background:var(--blue-700); padding:12px;">
+          💬 社会的欲求<br><span style="font-size:0.65em;font-weight:400;">家族の絆・コミュニティ</span>
+        </div>
+        <div class="py-level small" style="width:85%; background:#4A5568;">
+          🔒 安全の欲求（安心・安全な滞在）
+        </div>
+        <div class="py-level small" style="width:95%; background:#718096;">
+          🍽️ 生理的欲求（美食・睡眠・温泉）
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">1.4 PERMAモデル — 幸福の5要素</div>
+    <div class="card-body">
+      <table style="font-size:0.72em;">
+        <thead><tr><th>要素</th><th>内容</th><th>旅行具体例</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--brown-500);">P</strong>ositive Emotion</td><td>喜び・感謝・希望</td><td>絶景・美食・思い出に残る体験</td></tr>
+          <tr><td><strong style="color:var(--blue-700);">E</strong>ngagement</td><td>没頭・フロー状態</td><td>陶芸・サーフィン・料理教室</td></tr>
+          <tr><td><strong style="color:var(--green-700);">R</strong>elationships</td><td>社会的つながり</td><td>家族団欒・現地交流</td></tr>
+          <tr><td><strong style="color:var(--brown-500);">M</strong>eaning</td><td>人生の意義</td><td>聖地巡礼・ボランティア</td></tr>
+          <tr><td><strong style="color:var(--blue-700);">A</strong>ccomplishment</td><td>達成感</td><td>バケットリスト完遂</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 1-5 5 Motives -->
+<div class="fade-up">
+  <div class="card">
+    <div class="card-header">1.5 具体的な5つの旅行動機 — 詳細解説</div>
+    <div class="card-body">
+      <div class="motif-grid">
+        <div class="motif-card"><div class="icon">😌</div><h4 style="font-size:0.85em;">逃避と休息</h4><p style="font-size:0.68em;">ストレスからの解放。心理的リセット効果。日常のルーティンからの離脱は脳のデフォルトモードネットワークを活性化し、創造性を高める。</p></div>
+        <div class="motif-card"><div class="icon">🗺️</div><h4 style="font-size:0.85em;">冒険と探求心</h4><p style="font-size:0.68em;">未知との遭遇がドーパミン分泌を促進。新しい文化・景色・価値観との遭遇は脳の報酬系を活性化し、学習効果を最大化する。</p></div>
+        <div class="motif-card"><div class="icon">👨‍👩‍👧‍👦</div><h4 style="font-size:0.85em;">社会的つながり</h4><p style="font-size:0.68em;">家族や友人との関係強化。共有体験は「物語」として記憶に定着し、長期的な絆を形成する。現地コミュニティとの交流も新たな関係構築に寄与。</p></div>
+        <div class="motif-card"><div class="icon">🏆</div><h4 style="font-size:0.85em;">自己実現</h4><p style="font-size:0.68em;">バケットリストの遂行、スキル獲得の旅。自分の可能性に挑戦し、成長を実感する場としての旅は、自己効力感を飛躍的に高める。</p></div>
+        <div class="motif-card"><div class="icon">🪞</div><h4 style="font-size:0.85em;">アイデンティティ</h4><p style="font-size:0.68em;">異文化の中での自己再発見。日常を離れることで「自分は誰か」「何を大切にするか」を改めて問い直す機会を得る。</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 1-6 Flow -->
+<div class="g2 fade-up">
+  <div class="card">
+    <div class="card-header">1.6 フロー理論と旅行体験</div>
+    <div class="card-body">
+      <p style="font-size:0.85em;">Csikszentmihalyiのフロー理論では、挑戦とスキルのバランスが最適なときに人は「没頭状態」に入る。旅行は以下の理由でフローを引き起こしやすい：</p>
+      <ul class="feature-list" style="margin-top:10px;">
+        <li><strong>明確な目標</strong> — 「今日はこの寺院を訪れる」など日単位の目標設定が容易</li>
+        <li><strong>即時フィードバック</strong> — 現地の反応・天候・味覚などが即座に結果を返す</li>
+        <li><strong>集中可能な環境</strong> — 日常の雑務から切り離された環境に没入できる</li>
+        <li><strong>時間感覚の変容</strong> — 没頭により時間の経過が気にならなくなる</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">1.7 世代別の旅行価値観比較</div>
+    <div class="card-body">
+      <table style="font-size:0.7em;">
+        <thead><tr><th>世代</th><th>主な動機</th><th>重視する価値</th></tr></thead>
+        <tbody>
+          <tr><td>Z世代（18-27）</td><td>体験・SNS共有・社会貢献</td><td>サステナビリティ・ローカル性・写真映え</td></tr>
+          <tr><td>ミレニアル（28-43）</td><td>自己成長・家族・ウェルネス</td><td>本物志向・ワークライフバランス・教育性</td></tr>
+          <tr><td>X世代（44-59）</td><td>リラックス・趣味・リトリート</td><td>快適性・プライバシー・コストパフォーマンス</td></tr>
+          <tr><td>シニア（60+）</td><td>健康・生涯学習・ルーツ探訪</td><td>安全性・アメニティ・文化的深み・長期滞在</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 1-8 Summary -->
+<div class="fade-up hl-box">
+  <p style="font-size:1.3em; font-weight:700;">「旅行は『非日常』ではなく、<span class="hl-gold">人生を根底から変える『心理的投資』</span>である」</p>
+  <div style="margin-top:16px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap; font-size:0.75em;">
+    <span class="tag tag-t">SDT 3ニーズ充足</span>
+    <span class="tag tag-b">PERMA 5因子達成</span>
+    <span class="tag tag-g">マズロー全階層作用</span>
+    <span class="tag tag-gold">フロー体験誘発</span>
+  </div>
+  <p style="margin-top:14px; font-size:0.8em; opacity:0.85;">ホテルへの示唆：単なる宿泊施設ではなく、PERMA・SDTを満たす「体験設計プラットフォーム」への進化が鍵となる。「泊まるだけ」から「人生を変える滞在」へ。</p>
+</div>
+
+<hr class="sec-divider">
+</div>
+</section>
+
+<!-- ================================================================== -->
+<!-- SECTION 2: INBOUND -->
+<!-- ================================================================== -->
+<section id="inbound" class="sec-inbound">
+<div class="container">
+<div class="section-header fade-up">
+  <div class="section-number">02</div>
+  <div class="section-title">📊 インバウンド市場分析 — 20年の変遷と次世代ターゲット</div>
+  <div class="section-desc">2004年から2025年までの日本のインバウンド市場の構造的変遷をデータで解説。成熟市場と急成長市場の二極化を読み解き、効果的なターゲット戦略を導く。</div>
+</div>
+
+<div class="kpi-grid fade-up">
+  <div class="kpi-card"><div class="num">10.66x</div><div class="label">中東の成長倍率（2010年→2025年）全地域中トップ</div></div>
+  <div class="kpi-card"><div class="num">+179%</div><div class="label">メキシコのコロナ前比成長率 — ダークホース急上昇</div></div>
+  <div class="kpi-card"><div class="num">4.1億人</div><div class="label">ターゲットGDP圏内のハラル人口規模</div></div>
+</div>
+
+<!-- 2-1 Phase -->
+<div class="fade-up">
+  <div class="card">
+    <div class="card-header">2.1 インバウンド市場の3フェーズ変遷（2004→2025）</div>
+    <div class="card-body">
+      <div class="phase-row">
+        <div class="phase-card" style="background:var(--brown-100); border-left:4px solid var(--brown-500);">
+          <h4 style="color:var(--brown-600);">🌅 黎明期（2004-2010）</h4>
+          <ul>
+            <li>中国 +18.6%、タイ +15.9%が牽引開始</li>
+            <li>JNTOプロモーション強化・ビザ緩和の動き</li>
+            <li>訪日は一部富裕層・ビジネス客が中心</li>
+            <li>年間訪日客数はまだ1000万人未満</li>
+          </ul>
+        </div>
+        <div class="phase-card" style="background:var(--blue-100); border-left:4px solid var(--blue-700);">
+          <h4 style="color:var(--blue-700);">🚀 急成長期（2011-2019）</h4>
+          <ul>
+            <li>中国 +29.4%、フィリピン +27.9%が爆発</li>
+            <li>円安・LCC就航・ビザ要件大幅緩和</li>
+            <li>2019年には3,188万人が過去最高記録</li>
+            <li>インバウンド消費額も4兆円超に</li>
+          </ul>
+        </div>
+        <div class="phase-card" style="background:var(--green-100); border-left:4px solid var(--green-700);">
+          <h4 style="color:var(--green-700);">🔄 現在（2024-2025）</h4>
+          <ul>
+            <li>欧米豪急伸：豪+32.5%、英+29.1%、米+27.2%</li>
+            <li>中国回復は19.3%と出遅れ</li>
+            <li>高単価・長期滞在・体験重視へ</li>
+            <li>サステナビリティ意識の高まり</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2-2 Mature & Dark Horse -->
+<div class="g2 fade-up">
+  <div class="card">
+    <div class="card-header">2.2 主要アジア市場の「成熟期」入り</div>
+    <div class="card-body">
+      <table style="font-size:0.75em;">
+        <thead><tr><th>国・地域</th><th>現状</th><th>成長率</th><th>今後の見通し</th></tr></thead>
+        <tbody>
+          <tr><td>🇭🇰 香港</td><td>251万人</td><td style="color:#E53E3E;">-6.1%</td><td>減少傾向。集客より単価向上戦略へ</td></tr>
+          <tr><td>🇹🇭 タイ</td><td>安定需要</td><td>一桁台</td><td>成熟期。リピーター優遇プログラムが有効</td></tr>
+          <tr><td>🇵🇭 フィリピン</td><td>高伸びから安定へ</td><td>一桁台</td><td>GDP成長に伴い再加速の可能性</td></tr>
+          <tr><td>🇹🇼 台湾</td><td>安定</td><td>安定</td><td>リピーター率が高い優良市場</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">2.3 台頭するダークホース市場</div>
+    <div class="card-body">
+      <table style="font-size:0.75em;">
+        <thead><tr><th>国</th><th>コロナ前比</th><th>主要因</th><th>戦略的評価</th></tr></thead>
+        <tbody>
+          <tr><td>🇲🇽 メキシコ</td><td style="color:var(--brown-500); font-weight:700;">+179%</td><td>ビザ免除・LCC就航</td><td>高単価旅行者の新市場</td></tr>
+          <tr><td>🇵🇱 ポーランド</td><td style="color:var(--brown-500); font-weight:700;">+148%</td><td>東欧からの新規需要</td><td>今後の成長期待</td></tr>
+          <tr><td>🇧🇷 ブラジル</td><td style="color:var(--brown-500); font-weight:700;">+132%</td><td>ビザ免除・路線拡充</td><td>ポルトガル語対応で差別化</td></tr>
+          <tr><td>🇲🇳 モンゴル</td><td style="color:var(--brown-500); font-weight:700;">+101%</td><td>経済成長・近接性</td><td>ショートハウル新市場</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 2-4 Regional Growth -->
+<div class="g2 fade-up">
+  <div class="card">
+    <div class="card-header">2.4 地域別成長倍率（2010年→2025年）</div>
+    <div class="card-body">
+      <table style="font-size:0.7em;">
+        <thead><tr><th>地域</th><th>2010年</th><th>2025年</th><th>倍率</th><th>フェーズ評価</th></tr></thead>
+        <tbody>
+          <tr><td>🌍 中東</td><td>2.4万人</td><td>25.7万人</td><td><strong style="color:var(--brown-500);">10.66倍</strong></td><td><span class="tag tag-g">最強エンジン</span></td></tr>
+          <tr><td>🌎 中南米</td><td>5.8万人</td><td>41.6万人</td><td>7.09倍</td><td><span class="tag tag-b">急成長</span></td></tr>
+          <tr><td>🌏 東南アジア</td><td>—</td><td>—</td><td>6.75倍</td><td><span class="tag tag-t">成熟化</span></td></tr>
+          <tr><td>🌏 インド等</td><td>6.6万人</td><td>31.5万人</td><td>4.71倍</td><td><span class="tag tag-gold">将来性</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">2.5 GDP分析によるターゲット戦略</div>
+    <div class="card-body">
+      <table style="font-size:0.65em;">
+        <thead><tr><th>GDP帯</th><th>注目国</th><th>人口</th><th>戦略評価</th></tr></thead>
+        <tbody>
+          <tr><td><strong>$4K-6K</strong><br>ショートハウル本格化</td><td>🇮🇩 インドネシア<br>🇵🇭 フィリピン<br>🇻🇳 ベトナム</td><td>2.8億人<br>1.1億人<br>1.0億人</td><td><span class="tag tag-g">最重点</span><br><span class="tag tag-b">安定</span><br><span class="tag tag-gold">拡大期待</span></td></tr>
+          <tr><td><strong>$7K-13K</strong><br>ロングハウル高単価</td><td>🇲🇽 メキシコ<br>🇧🇷 ブラジル<br>🇰🇿 カザフスタン</td><td>—</td><td><span class="tag tag-b">急成長</span><br><span class="tag tag-b">急成長</span><br><span class="tag tag-gold">将来性</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 2-6 Middle East -->
+<div class="g2 fade-up">
+  <div class="card">
+    <div class="card-header">2.6 中東市場の爆発力 — 最強の成長エンジン</div>
+    <div class="card-body">
+      <p style="font-size:0.85em; margin-bottom:10px;">中東からの訪日客は2010年比で<strong>10.66倍</strong>と全地域中トップの成長を記録。この背景には以下の構造的要因がある：</p>
+      <ul class="feature-list">
+        <li><strong>脱石油戦略</strong> — サウジビジョン2030やUAEの経済多角化により、海外旅行需要が急拡大</li>
+        <li><strong>航空路線の拡充</strong> — エミレーツ、カタール航空、エティハドなど中東系キャリアの日本路線増加</li>
+        <li><strong>高単価・長期滞在</strong> — 一人当たり旅行消費額が非常に高く、家族旅行が中心で滞在日数も長い</li>
+        <li><strong>ハラル需要</strong> — ムスリムフレンドリーな環境整備がさらなる需要拡大の鍵</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">2.7 インドの巨大な潜在力</div>
+    <div class="card-body">
+      <p style="font-size:0.85em; margin-bottom:10px;">インドは現状成長倍率4.71倍と抑制的に見えるが、中長期的には最大の成長市場となる可能性を秘める：</p>
+      <ul class="feature-list">
+        <li><strong>GDP成長</strong> — 年平均6-7%の成長を維持、2030年には世界第3位の経済大国へ</li>
+        <li><strong>中間層の爆発</strong> — 2030年までに約5億人が中間層に到達</li>
+        <li><strong>海外旅行者数予測</strong> — 2030年までに5,000万人との見方も</li>
+        <li><strong>IT人材の高所得化</strong> — シリコンバレーやバンガロールのITエリート層が高付加価値旅行者に</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 2-8 Halal Population -->
+<div class="fade-up">
+  <div class="card" style="background:var(--brown-100); border-left:5px solid var(--brown-500);">
+    <div class="card-header">2.8 ハラル（ムスリム）人口推計と市場ポテンシャル</div>
+    <div class="card-body">
+      <table style="font-size:0.72em;">
+        <thead><tr><th>指標</th><th>数値</th><th>示唆</th></tr></thead>
+        <tbody>
+          <tr><td>GDP $4K-13K圏のハラル人口</td><td><strong>約4.1億人</strong></td><td>ターゲット総人口26.6億人の15.4%</td></tr>
+          <tr><td>主要市場を加算した総数</td><td><strong>約4.27億人</strong></td><td>欧米・シンガポール等のムスリム層含む</td></tr>
+          <tr><td>世界ハラル人口比</td><td><strong>約21%</strong></td><td>世界20億人の5分の1が既に射程圏内</td></tr>
+          <tr><td>インドネシア集中度</td><td><strong>約2.4億人（約60%）</strong></td><td>インドネシアの獲得が成否を握る</td></tr>
+          <tr><td>マレーシア</td><td><strong>約2,100万人</strong></td><td>GDP 1万ドル超えの優良市場</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 2-9 Strategy -->
+<div class="g2 fade-up">
+  <div class="card full-w">
+    <div class="card-header">2.9 戦略的提言 — 優先順位マトリクス</div>
+    <div class="card-body">
+      <table style="font-size:0.72em;">
+        <thead><tr><th>優先度</th><th>市場</th><th>戦略</th><th>投資領域</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-t">最優先</span></td><td>中東・インドネシア</td><td>ハラル認証取得、ムスリムフレンドリー整備</td><td>設備投資・人材育成・マーケティング</td></tr>
+          <tr><td><span class="tag tag-b">高優先</span></td><td>米国・豪州・英国</td><td>ESG認証取得、リジェネレーティブ訴求</td><td>サステナビリティ認証・広報</td></tr>
+          <tr><td><span class="tag tag-g">中優先</span></td><td>中南米・東欧</td><td>多言語対応、ビザ情報充実</td><td>Web多言語化・プロモーション</td></tr>
+          <tr><td><span class="tag tag-gold">継続</span></td><td>東南アジア（既存）</td><td>リピーター優遇・単価向上</td><td>CRM・体験価値向上</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:0.8em; color:var(--text-light); text-align:center; margin-top:12px;">
+        「量的拡大」から「質的転換」へ — 限られたリソースを最適配分するデータドリブンな市場選定が必須
+      </p>
+    </div>
+  </div>
+</div>
+
+<hr class="sec-divider">
+</div>
+</section>
+
+<!-- ================================================================== -->
+<!-- SECTION 3: ESG -->
+<!-- ================================================================== -->
+<section id="esg" class="sec-esg">
+<div class="container">
+<div class="section-header fade-up">
+  <div class="section-number">03</div>
+  <div class="section-title">🌿 日本のホテルがESGに取り組むべき理由</div>
+  <div class="section-desc">Z世代の91%が環境・社会配慮で旅行先を選定する時代。ESG経営はコストではなく、競争優位性を生むマーケティングツールである。</div>
+</div>
+
+<div class="kpi-grid fade-up">
+  <div class="kpi-card"><div class="num">91%</div><div class="label">Z世代「環境・社会的関心事が旅行計画に影響」Expedia Group</div></div>
+  <div class="kpi-card"><div class="num">87%</div><div class="label">「サステナブルな選択肢に追加料金支払いOK」Booking.com</div></div>
+  <div class="kpi-card"><div class="num">113.9%</div><div class="label">米国からのインバウンド 2019年比回復率（EYレポート）</div></div>
+</div>
+
+<!-- 3-1 Charts row 1 -->
+<div class="g2 fade-up">
+  <div class="card">
+    <div class="card-header">SDGs達成度ランキング（2026）</div>
+    <div class="chart-box"><canvas id="cSdg"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-header">Z世代の旅行意識調査（%）</div>
+    <div class="chart-box"><canvas id="cZgen"></canvas></div>
+  </div>
+</div>
+
+<!-- 3-2 Charts row 2 -->
+<div class="g2 fade-up">
+  <div class="card">
+    <div class="card-header">インバウンド回復率（2019年比）</div>
+    <div class="chart-box"><canvas id="cRecov"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-header">ESG取り組みによる6大メリット</div>
+    <div class="chart-box"><canvas id="cRadar"></canvas></div>
+  </div>
+</div>
+
+<!-- 3-3 Detailed merits -->
+<div class="fade-up">
+  <div class="card">
+    <div class="card-header">3.3 ESG取り組み6大メリット — 詳細解説</div>
+    <div class="card-body">
+      <div class="g2" style="gap:16px;">
+        <div style="padding:12px 0;">
+          <h4 style="color:var(--brown-500); font-size:0.9em;">① 集客力向上（Z世代対応）<span class="tag tag-t" style="float:right;">影響度9.5</span></h4>
+          <p style="font-size:0.78em;">Z世代の91%が環境・社会配慮を旅行選定基準とする。ESG認証は「選ばれる理由」になる。特に欧米豪からのインバウンド獲得には必須条件になりつつある。</p>
+        </div>
+        <div style="padding:12px 0;">
+          <h4 style="color:var(--blue-700); font-size:0.9em;">② OTA販路優位性 <span class="tag tag-b" style="float:right;">影響度8.5</span></h4>
+          <p style="font-size:0.78em;">Booking.comやExpediaはサステナブル認証ホテルを優先表示するアルゴリズムを導入。認証取得者は検索上位に表示され、予約転換率が向上する。</p>
+        </div>
+        <div style="padding:12px 0;">
+          <h4 style="color:var(--green-700); font-size:0.9em;">③ 光熱費・廃棄物コスト削減 <span class="tag tag-g" style="float:right;">影響度8.0</span></h4>
+          <p style="font-size:0.78em;">LED化・節水機器・再生可能エネルギーへの転換により、ランニングコストを15-30%削減可能。初期投資は3-5年で回収できる試算。</p>
+        </div>
+        <div style="padding:12px 0;">
+          <h4 style="color:var(--brown-500); font-size:0.9em;">④ 優秀な人材確保・定着 <span class="tag tag-t" style="float:right;">影響度8.8</span></h4>
+          <p style="font-size:0.78em;">Z世代の就職先選定でもESG意識の高い企業が優位。離職率の低下・採用コスト削減にも寄与。社員のエンゲージメント向上効果も実証済み。</p>
+        </div>
+        <div style="padding:12px 0;">
+          <h4 style="color:var(--blue-700); font-size:0.9em;">⑤ 気候変動・規制リスク軽減 <span class="tag tag-b" style="float:right;">影響度9.0</span></h4>
+          <p style="font-size:0.78em;">EUは2030年までにCO2 55%削減を法的義務化。日本も遅れて規制強化の方向。早期対応はコスト回避だけでなく、ブランド価値向上につながる。</p>
+        </div>
+        <div style="padding:12px 0;">
+          <h4 style="color:var(--green-700); font-size:0.9em;">⑥ ブランド価値向上（リジェネレーティブ） <span class="tag tag-g" style="float:right;">影響度9.2</span></h4>
+          <p style="font-size:0.78em;">「環境負荷ゼロ」から「環境・社会をプラスにする」リジェネレーティブが欧州で新常識に。地域の生態系回復・文化再生に貢献するホテルが最高評価を得る。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3-4 Compare -->
+<div class="fade-up">
+  <div class="card">
+    <div class="card-header">3.4 サステナブル vs リジェネレーティブ — 概念の進化</div>
+    <div class="card-body">
+      <div class="cmp-grid">
+        <div class="cmp-card l">
+          <div class="icon">🔄</div>
+          <h4 style="color:var(--brown-600);">サステナブル（現状維持）</h4>
+          <div class="desc">環境負荷を「ゼロ」にする</div>
+          <div class="sub">マイナスを0に戻す（削減・抑制）</div>
+        </div>
+        <div class="cmp-card r">
+          <div class="icon">🌱</div>
+          <h4 style="color:var(--green-700);">リジェネレーティブ（再生）</h4>
+          <div class="desc">環境・社会を「プラス」にする</div>
+          <div class="sub">0を1にする（再生・創生・改新）</div>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top:14px; font-size:0.8em; color:var(--brown-500); font-weight:500;">
+        ⚡ 欧州では既に「リジェネレーティブ」が新常識に — 日本ホテルも次のステージへ
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- 3-5 Roadmap -->
+<div class="fade-up">
+  <div class="card">
+    <div class="card-header">3.5 ESG導入ロードマップ（推奨）</div>
+    <div class="card-body">
+      <table style="font-size:0.72em;">
+        <thead><tr><th>フェーズ</th><th>時期</th><th>アクション</th><th>期待効果</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-gold">Phase 1</span></td><td>0-6ヶ月</td><td>エネルギー監査・廃棄物測定・スタッフ教育</td><td>現状把握・コスト削減ポテンシャル算出</td></tr>
+          <tr><td><span class="tag tag-gold">Phase 2</span></td><td>6-12ヶ月</td><td>LED化・節水導入・リサイクルシステム構築</td><td>光熱費15-20%削減・認証申請準備</td></tr>
+          <tr><td><span class="tag tag-gold">Phase 3</span></td><td>1-2年</td><td>サステナブル認証取得・地域連携プログラム開始</td><td>OTA優位表示・集客力向上・人材確保</td></tr>
+          <tr><td><span class="tag tag-gold">Phase 4</span></td><td>2-3年</td><td>リジェネレーティブプログラム展開・カーボンネガティブ</td><td>ブランド価値最高到達・プレミアム価格設定</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<hr class="sec-divider">
+</div>
+</section>
+
+<!-- ================================================================== -->
+<!-- SECTION 4: HALAL -->
+<!-- ================================================================== -->
+<section id="halal" class="sec-halal">
+<div class="container">
+<div class="section-header fade-up">
+  <div class="section-number">04</div>
+  <div class="section-title">☪️ ハラール（ムスリム）インバウンド市場</div>
+  <div class="section-desc">世界のハラル人口20億人。日本市場は未だ開拓途上。需給ギャップ80%は圧倒的なブルーオーシャンである。本セクションでは市場規模・成長性・対応戦略を詳細に解説する。</div>
+</div>
+
+<div class="kpi-grid fade-up">
+  <div class="kpi-card"><div class="num">$5.7T</div><div class="label">世界ハラール食品市場 2034年予測（CAGR 9.56%）</div></div>
+  <div class="kpi-card"><div class="num">$3,104億</div><div class="label">ハラールツーリズム市場 2028年予測</div></div>
+  <div class="kpi-card"><div class="num">80%</div><div class="label">世界の需給ギャップ — 供給が需要に追いついていない</div></div>
+</div>
+
+<!-- 4-1 Charts row 1 -->
+<div class="g2 fade-up">
+  <div class="card">
+    <div class="card-header">世界ハラール食品市場の成長予測（Straits Research）</div>
+    <div class="chart-box"><canvas id="cHw"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-header">日本ハラール食品市場の成長予測</div>
+    <div class="chart-box"><canvas id="cHj"></canvas></div>
+  </div>
+</div>
+
+<!-- 4-2 Charts row 2 -->
+<div class="g2 fade-up">
+  <div class="card">
+    <div class="card-header">ハラールツーリズム市場の成長</div>
+    <div class="chart-box"><canvas id="cHt"></canvas></div>
+  </div>
+  <div class="card" style="display:flex; flex-direction:column;">
+    <div class="card-header">需給ギャップ分析</div>
+    <div class="chart-box" style="flex:1; display:flex; align-items:center; justify-content:center;">
+      <canvas id="cHg" style="max-width:240px; max-height:240px;"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- 4-3 Data details -->
+<div class="g2 fade-up">
+  <div class="card">
+    <div class="card-header">4.3 市場データ詳細</div>
+    <div class="card-body">
+      <table style="font-size:0.7em;">
+        <thead><tr><th>指標</th><th>出典</th><th>期間</th><th>CAGR</th></tr></thead>
+        <tbody>
+          <tr><td>世界ハラール食品</td><td>Straits Research</td><td>2025年 $2.52T → 2034年 $5.74T</td><td><strong>9.56%</strong></td></tr>
+          <tr><td>世界ハラール食品</td><td>GM Insights</td><td>2024年 $2.50T → 2034年 $6.00T</td><td><strong>9.10%</strong></td></tr>
+          <tr><td>日本ハラール食品</td><td>Straits Research</td><td>2025年 $1,735億 → 2034年 $3,474億</td><td><strong>7.78%</strong></td></tr>
+          <tr><td>ハラールツーリズム</td><td>—</td><td>2021年 $2,152億 → 2028年 $3,104億</td><td><strong>3.90%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">4.4 セクター別CAGR比較</div>
+    <div class="chart-box"><canvas id="cCagr"></canvas></div>
+  </div>
+</div>
+
+<!-- 4-5 Indonesia -->
+<div class="fade-up">
+  <div class="card" style="background:var(--brown-100); border-left:5px solid var(--brown-500);">
+    <div class="card-header">4.5 インドネシアがハラル戦略の鍵を握る理由</div>
+    <div class="card-body">
+      <div class="g2" style="gap:16px;">
+        <div>
+          <ul class="feature-list">
+            <li><strong>世界最大のムスリム人口</strong> — 約2.4億人（ターゲット圏内ハラル人口の約60%）</li>
+            <li><strong>GDP成長</strong> — 約5,300ドルに到達し、海外旅行本格化フェーズに突入</li>
+            <li><strong>成長率</strong> — 2019→24年で+25.4%、直近も+23.7%と爆発的成長継続</li>
+            <li><strong>地理的近接性</strong> — 日本へのフライト時間が約7時間と中東より近い</li>
+          </ul>
+        </div>
+        <div>
+          <div style="text-align:center; padding:16px; background:var(--white); border-radius:10px;">
+            <div style="font-size:2.8em; font-weight:700; color:var(--brown-500);">2.4億人</div>
+            <div style="font-size:0.7em; color:var(--text-light);">インドネシア ムスリム人口</div>
+            <div style="margin-top:8px; font-size:0.72em;">
+              = ターゲット内ハラル人口の <strong style="color:var(--brown-500);">約60%</strong><br>
+              = 世界ハラル人口の <strong style="color:var(--blue-700);">約12%</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4-6 Strategy -->
+<div class="g2 fade-up">
+  <div class="card full-w">
+    <div class="card-header">4.6 ハラル対応 — アクションプランと優先順位</div>
+    <div class="card-body">
+      <table style="font-size:0.72em;">
+        <thead><tr><th>優先度</th><th>施策</th><th>コスト</th><th>効果</th><th>推奨時期</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag tag-t">最優先</span></td><td>ハラル認証の取得（JAKIM・日本ムスリム協会等）</td><td>中</td><td>信頼性確保・マーケティング素材に</td><td>0-6ヶ月</td></tr>
+          <tr><td><span class="tag tag-t">最優先</span></td><td>ムスリムフレンドリールームの設置（キブラ表示・洗浄設備）</td><td>低〜中</td><td>宿泊需要の取り込み</td><td>0-6ヶ月</td></tr>
+          <tr><td><span class="tag tag-b">高優先</span></td><td>ハラル食対応（認証レストラン・ケータリング提携）</td><td>中〜高</td><td>滞在中の食の安全確保</td><td>6-12ヶ月</td></tr>
+          <tr><td><span class="tag tag-b">高優先</span></td><td>アラビア語・インドネシア語対応（Web・館内案内）</td><td>中</td><td>顧客体験向上・予約転換率向上</td><td>6-12ヶ月</td></tr>
+          <tr><td><span class="tag tag-g">中優先</span></td><td>礼拝スペースの設置・女性専用フロア</td><td>高</td><td>ファミリー需要の取り込み</td><td>1-2年</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- 4-7 Takeaway -->
+<div class="fade-up hl-box" style="background:linear-gradient(135deg, var(--blue-800), var(--green-900));">
+  <p style="font-size:1.2em; font-weight:700;">ハラル市場は「ニッチ」から「マスト」へ</p>
+  <p style="font-size:0.9em; opacity:0.9; margin-top:8px;">中東の10.66倍成長・インドネシアの爆発的増加・世界20億人のムスリム人口</p>
+  <p style="font-size:0.85em; opacity:0.75; margin-top:12px;">需給ギャップ80%はチャンス — 先行者利益を得るために今すぐ行動を</p>
+</div>
+
+<hr class="sec-divider">
+</div>
+</section>
+
+<footer>
+  Hotel Sales Manual 2026 ｜ 心理学 × データ × ESG × ハラル<br>
+  作成日：2026年7月
+</footer>
+
+<!-- ================================================================== -->
+<!-- CHARTS JS -->
+<!-- ================================================================== -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  Chart.defaults.font.family = "'Noto Sans JP', sans-serif";
+  Chart.defaults.font.size = 10;
+  const brn = '#A0522D', nvy = '#1A365D', grn = '#2E7D32', gold = '#D2B48C';
+
+  // Plugin helpers (defined first so all charts can use them)
+  function lbPlugin(pos) { return { id: 'cl', afterDraw(c) { const ctx=c.ctx; ctx.font='bold 10px Noto Sans JP, sans-serif'; c.data.datasets.forEach((ds,i)=>{ const meta=c.getDatasetMeta(i); meta.data.forEach((bar,idx)=>{ const v=ds.data[idx]; ctx.fillStyle='#3E2723'; ctx.textAlign=pos; ctx.textBaseline='middle'; pos==='left'?ctx.fillText(v+'',bar.x-6,bar.y):ctx.fillText(v+'%',bar.x+6,bar.y); }); }); } }; }
+  const tpPlugin = { id: 'tp', afterDraw(c) { const ctx=c.ctx; ctx.font='bold 10px Noto Sans JP, sans-serif'; c.data.datasets.forEach((ds,i)=>{ const meta=c.getDatasetMeta(i); meta.data.forEach((bar,idx)=>{ const v=ds.data[idx]; ctx.fillStyle='#3E2723'; ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText(v+'%',bar.x,bar.y-4); }); }); } };
+  const tpPlugin2 = { id: 'tp2', afterDraw(c) { const ctx=c.ctx; ctx.font='8px Noto Sans JP, sans-serif'; c.data.datasets.forEach((ds,i)=>{ const meta=c.getDatasetMeta(i); meta.data.forEach((bar,idx)=>{ const v=ds.data[idx]; ctx.fillStyle='#3E2723'; ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText(v.toFixed(0),bar.x,bar.y-3); }); }); } };
+  const l100Plugin = { id: 'l100', afterDraw(c) { const ctx=c.ctx; const ys=c.scales.y; const y100=ys.getPixelForValue(100); ctx.save(); ctx.setLineDash([6,4]); ctx.strokeStyle='#E53E3E'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(c.chartArea.left,y100); ctx.lineTo(c.chartArea.right,y100); ctx.stroke(); ctx.restore(); ctx.fillStyle='#E53E3E'; ctx.font='9px Noto Sans JP, sans-serif'; ctx.textAlign='right'; ctx.textBaseline='bottom'; ctx.fillText('100%',c.chartArea.right-4,y100-3); } };
+
+  // SDGs
+  new Chart(document.getElementById('cSdg'), {
+    type: 'bar', data: {
+      labels: ['日本','ドイツ','ノルウェー','デンマーク','スウェーデン','フィンランド'],
+      datasets: [{ data: [81.02,84.02,84.08,85.68,86.26,87.40],
+        backgroundColor: ['#A0522D','#1A365D','#1A365D','#1A365D','#1A365D','#1A365D'],
+        borderRadius: 4, barThickness: 20 }]
+    }, options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.x+'pt' } } },
+      scales: { x: { min:70, max:100, grid:{color:'#E8DDD0'} }, y: { grid:{display:false} } }
+    }, plugins: [lbPlugin('left')]
+  });
+
+  // Z世代
+  new Chart(document.getElementById('cZgen'), {
+    type: 'bar', data: {
+      labels: ['環境配慮が影響','オフピーク旅行','代替目的地','追加料金OK','地域文化体験','野生生物保全'],
+      datasets: [{ data: [91,94,94,87,31,24],
+        backgroundColor: ['#2E7D32','#388E3C','#43A047','#66BB6A','#81C784','#A5D6A7'],
+        borderRadius: 4, barThickness: 26 }]
+    }, options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.y+'%' } } },
+      scales: { y: { min:0, max:100, grid:{color:'#E8DDD0'} }, x: { grid:{display:false}, ticks:{font:{size:8}} } }
+    }, plugins: [tpPlugin]
+  });
+
+  // 回復率
+  new Chart(document.getElementById('cRecov'), {
+    type: 'bar', data: {
+      labels: ['米国','韓国','香港','台湾','タイ','中国'],
+      datasets: [{ data: [113.9,91.4,88.5,77.1,72.0,19.3],
+        backgroundColor: ['#A0522D','#1A365D','#1A365D','#1A365D','#1A365D','#A0AEC0'],
+        borderRadius: 4, barThickness: 26 }]
+    }, options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.y+'%' } } },
+      scales: { y: { min:0, max:130, grid:{color:'#E8DDD0'} }, x: { grid:{display:false} } }
+    }, plugins: [tpPlugin, l100Plugin]
+  });
+
+  // レーダー
+  new Chart(document.getElementById('cRadar'), {
+    type: 'radar', data: {
+      labels: ['集客力向上','OTA販路優位性','コスト削減','人材確保・定着','リスク軽減','ブランド価値'],
+      datasets: [{ data: [9.5,8.5,8.0,8.8,9.0,9.2],
+        backgroundColor: 'rgba(46,125,50,0.2)', borderColor: grn, borderWidth: 2,
+        pointBackgroundColor: grn, pointBorderColor: '#fff', pointBorderWidth: 2, pointRadius: 5 }]
+    }, options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => 'スコア: '+c.parsed.r+'/10' } } },
+      scales: { r: { min:0, max:10, ticks: { stepSize:2, font:{size:8}, backdropColor:'transparent' }, grid:{color:'#E8DDD0'}, angleLines:{color:'#E8DDD0'}, pointLabels:{font:{size:9}, color:'#3E2723'} } }
+    }
+  });
+
+  // 世界ハラル
+  const wy = Array.from({length:10},(_,i)=>2025+i);
+  const wv = wy.map(y=>25240*Math.pow(1.0956,y-2025));
+  new Chart(document.getElementById('cHw'), {
+    type: 'bar', data: { labels: wy, datasets: [{ data: wv, backgroundColor: nvy, borderRadius: 3, barThickness: 20 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.y.toFixed(0)+'億ドル' } } },
+      scales: { y: { grid:{color:'#E8DDD0'} }, x: { grid:{display:false} } }
+    }, plugins: [tpPlugin2]
+  });
+
+  // 日本ハラル
+  const jy = Array.from({length:10},(_,i)=>2025+i);
+  const jv = jy.map(y=>1735*Math.pow(1.0778,y-2025));
+  new Chart(document.getElementById('cHj'), {
+    type: 'bar', data: { labels: jy, datasets: [{ data: jv, backgroundColor: grn, borderRadius: 3, barThickness: 20 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.y.toFixed(0)+'億ドル' } } },
+      scales: { y: { grid:{color:'#E8DDD0'} }, x: { grid:{display:false} } }
+    }, plugins: [tpPlugin2]
+  });
+
+  // ツーリズム
+  const ty = Array.from({length:8},(_,i)=>2021+i);
+  const tv = ty.map(y=>2152.6*Math.pow(1.039,y-2021));
+  new Chart(document.getElementById('cHt'), {
+    type: 'bar', data: { labels: ty, datasets: [{ data: tv, backgroundColor: brn, borderRadius: 3, barThickness: 26 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.y.toFixed(1)+'億ドル' } } },
+      scales: { y: { grid:{color:'#E8DDD0'} }, x: { grid:{display:false} } }
+    }, plugins: [tpPlugin2]
+  });
+
+  // 需給ギャップ
+  new Chart(document.getElementById('cHg'), {
+    type: 'doughnut', data: {
+      labels: ['供給（20%）','不足（80%）'],
+      datasets: [{ data: [20,80], backgroundColor: [grn, '#E8DDD0'], borderWidth: 2, borderColor: '#FCF8F2' }]
+    }, options: {
+      responsive: true, maintainAspectRatio: false, cutout: '65%',
+      plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } }, tooltip: { callbacks: { label: c => c.label+': '+c.parsed+'%' } } }
+    }
+  });
+
+  // CAGR比較
+  new Chart(document.getElementById('cCagr'), {
+    type: 'bar', data: {
+      labels: ['世界ハラール食品','日本ハラール食品','ハラールツーリズム'],
+      datasets: [{ data: [9.56,7.78,3.9], backgroundColor: [nvy, grn, brn], borderRadius: 6, barThickness: 36 }]
+    }, options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.x+'%' } } },
+      scales: { x: { grid:{color:'#E8DDD0'}, ticks:{callback:v=>v+'%'} }, y: { grid:{display:false} } }
+    }, plugins: [lbPlugin('right')]
+  });
+
+  // ===== Scroll-triggered animations =====
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.fade-up, .fade-in').forEach(el => observer.observe(el));
+
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('progressFill').style.width = (window.scrollY / h * 100) + '%';
+  });
+
+});
+</script>
+</body>
+</html>
